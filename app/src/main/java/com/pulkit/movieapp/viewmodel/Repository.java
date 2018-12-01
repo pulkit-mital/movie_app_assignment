@@ -20,7 +20,7 @@ public class Repository {
     private MovieDao mMovieDao;
 
     private LiveData<List<MoviesResult>> movies;
-    private LiveData<List<MoviesResult>> movieFav;
+    private LiveData<List<MoviesResult>> favouriteMovies;
     private int movieID;
     private LiveData<List<ReviewResult>> mReviewResult;
     private LiveData<List<TrailerResult>> mTrailerResult;
@@ -58,14 +58,14 @@ public class Repository {
     }
 
 
-    public void getFavData() {
-        movieFav = mMovieDao.getAllMovies();
+    public void getFavouriteMovies() {
+        favouriteMovies = mMovieDao.getAllMovies();
 
     }
 
     public LiveData<List<MoviesResult>> mLiveDataFav() {
 
-        return movieFav;
+        return favouriteMovies;
     }
 
     public void getTopRated() {

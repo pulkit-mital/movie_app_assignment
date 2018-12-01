@@ -14,7 +14,7 @@ import java.util.List;
 public class MovieViewModel extends AndroidViewModel {
 
     private LiveData<List<MoviesResult>> movies;
-    private LiveData<List<MoviesResult>> movieFav;
+    private LiveData<List<MoviesResult>> favouriteMovies;
     private Repository repository;
 
     @Override
@@ -36,12 +36,12 @@ public class MovieViewModel extends AndroidViewModel {
         return movies;
     }
 
-    public LiveData<List<MoviesResult>> mLiveDataFav() {
-        if (movieFav == null) {
-            movieFav = new MutableLiveData<>();
+    public LiveData<List<MoviesResult>> mLiveDataFavourite() {
+        if (favouriteMovies == null) {
+            favouriteMovies = new MutableLiveData<>();
         }
-        movieFav = repository.mLiveDataFav();
-        return movieFav;
+        favouriteMovies = repository.mLiveDataFav();
+        return favouriteMovies;
     }
 
 
@@ -53,8 +53,8 @@ public class MovieViewModel extends AndroidViewModel {
         repository.getPopular();
     }
 
-    public void getFavData() {
-        repository.getFavData();
+    public void getFavouriteMovies() {
+        repository.getFavouriteMovies();
 
 
     }

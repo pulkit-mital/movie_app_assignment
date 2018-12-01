@@ -92,7 +92,7 @@ public class MoviesActivity extends AppCompatActivity {
 
 
             case 1:
-                movieViewModel.mLiveDataFav().observe(this, new Observer<List<MoviesResult>>() {
+                movieViewModel.mLiveDataFavourite().observe(this, new Observer<List<MoviesResult>>() {
                     @Override
                     public void onChanged(@Nullable List<MoviesResult> moviesResultList) {
                         setupRecyclerView(moviesResultList);
@@ -157,7 +157,7 @@ public class MoviesActivity extends AppCompatActivity {
             case R.id.fav:
 
 
-                movieViewModel.getFavData();
+                movieViewModel.getFavouriteMovies();
                 selected = 1;
                 populateUI(selected);
 

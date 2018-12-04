@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.pulkit.movieapp.R;
+import com.pulkit.movieapp.activities.MoviesActivity;
 import com.pulkit.movieapp.model.movies.MoviesResult;
 import com.pulkit.movieapp.picasso.RoundedTransformation;
 import com.squareup.picasso.Picasso;
@@ -16,10 +17,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * this class is used to load movie list
+ */
 public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdapter.ViewHolder> {
 
     private List<MoviesResult> moviesResultList;
-    final private ListItemClickListener mOnClickListener;
     private Context context;
 
     public interface ListItemClickListener {
@@ -27,9 +30,8 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
         void onListItemClick(MoviesResult movie);
     }
 
-    public MovieRecyclerAdapter(Context context, List<MoviesResult> moviesResultList, ListItemClickListener listItemClickListener) {
+    public MovieRecyclerAdapter(Context context, List<MoviesResult> moviesResultList) {
         this.context = context;
-        this.mOnClickListener = listItemClickListener;
         this.moviesResultList = moviesResultList;
     }
 
@@ -44,10 +46,16 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        MoviesResult movie = moviesResultList.get(position);
+        final MoviesResult movie = moviesResultList.get(position);
         holder.itemView.setTag(movie.getId());
 
         Picasso.get().load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath()).transform(new RoundedTransformation(14, 0)).into(holder.imageView);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MoviesActivity)context).goToMovieDetails(movie);
+            }
+        });
 
     }
 
@@ -56,17 +64,9 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
         return moviesResultList == null ? 0 : moviesResultList.size();
     }
 
-    public void clearList(){
-        if(moviesResultList == null){
-            moviesResultList = new ArrayList<>();
-        }else {
-            int itemCount = moviesResultList.size();
-            moviesResultList.clear();
-            notifyItemRangeRemoved(0,itemCount);
-        }
-    }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    public class ViewHolder extends RecyclerView.ViewHolder  {
 
         ImageView imageView;
 
@@ -75,12 +75,5 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
             imageView = (ImageView) itemView.findViewById(R.id.imageView);
         }
 
-        @Override
-        public void onClick(View v) {
-
-            int adapterPosition = getAdapterPosition();
-            MoviesResult result = moviesResultList.get(adapterPosition);
-            mOnClickListener.onListItemClick(result);
-        }
     }
 }
